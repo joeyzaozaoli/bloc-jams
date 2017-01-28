@@ -28,6 +28,21 @@ var albumMarconi = {
      ]
  };
 
+var albumTchaikovsky = {
+     title: 'Swan Lake',
+     artist: 'Pyotr Tchaikovsky',
+     label: 'EMI Classics',
+     year: '2004',
+     albumArtUrl: 'https://images-na.ssl-images-amazon.com/images/I/71oPz7HdQeL._SL1200_.jpg',
+     songs: [
+         { title: 'Moderato Assai - Allegro Ma Non Troppo', duration: '2:01' },
+         { title: 'Scene: Allegro Giusto', duration: '4:01' },
+         { title: 'Valse: Tempo Di Valse', duration: '4:21'},
+         { title: 'Scene: Allegro Moderato', duration: '2:14' },
+         { title: 'Intrada: Allegro', duration: '3:15'}
+     ]
+ };
+
 var createSongRow = function(songNumber, songName, songLength) {
      var template =
         '<tr class="album-view-song-item">'
@@ -40,12 +55,17 @@ var createSongRow = function(songNumber, songName, songLength) {
      return template;
  };
 
+/* The following two variables have been moved out of setCurrentAlbum function to become
+global variables available for use by the addEventListener function at the bottom.
+*/
+var albumArtist = document.getElementsByClassName('album-view-artist')[0];
+var albumImage = document.getElementsByClassName('album-cover-art')[0];
+
 var setCurrentAlbum = function(album) {
    
      var albumTitle = document.getElementsByClassName('album-view-title')[0];
-     var albumArtist = document.getElementsByClassName('album-view-artist')[0];
      var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
-     var albumImage = document.getElementsByClassName('album-cover-art')[0];
+     
      var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
 
      albumTitle.firstChild.nodeValue = album.title;
@@ -62,4 +82,17 @@ var setCurrentAlbum = function(album) {
  
  window.onload = function() {
      setCurrentAlbum(albumPicasso);
+     
+     albumImage.addEventListener("click", function(event){
+        switch(albumArtist.firstChild.nodeValue) {
+            case 'Pablo Picasso':
+                setCurrentAlbum(albumMarconi);
+                break;
+            case 'Guglielmo Marconi':
+                setCurrentAlbum(albumTchaikovsky);
+                break;
+            case 'Pyotr Tchaikovsky':
+                setCurrentAlbum(albumPicasso);
+        }
+     });
  };
