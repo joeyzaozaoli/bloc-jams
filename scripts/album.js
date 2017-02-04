@@ -27,12 +27,21 @@ var getSongNumberCell = function(number){
     return $('.song-item-number[data-song-number="' + number + '"]');
 };
 
+//assignment-21
+var filterTimeCode = function(timeInSeconds) {
+    var minutes = Math.floor(parseFloat(timeInSeconds) / 60);
+    var seconds = Math.floor(parseFloat(timeInSeconds) % 60);
+    if (seconds < 10) {seconds = "0" + seconds;}
+    return minutes + ":" + seconds;
+};
+
 var createSongRow = function(songNumber, songName, songLength) {
+    //assignment-21
     var template =
         '<tr class="album-view-song-item">'
       + '  <td class="song-item-number" data-song-number="' + songNumber + '">' + songNumber + '</td>'
       + '  <td class="song-item-title">' + songName + '</td>'
-      + '  <td class="song-item-duration">' + songLength + '</td>'
+      + '  <td class="song-item-duration">' + filterTimeCode(songLength) + '</td>'
       + '</tr>'
       ;
     var $row = $(template);
@@ -116,6 +125,11 @@ var setCurrentAlbum = function(album) {
     }
 };
 
+//assignment-21
+var setCurrentTimeInPlayerBar = function(currentTime) {
+    $(".current-time").text(currentTime);
+};
+
 var updateSeekBarWhileSongPlays = function() {
      if (currentSoundFile) {
          currentSoundFile.bind('timeupdate', function(event) {
@@ -123,6 +137,9 @@ var updateSeekBarWhileSongPlays = function() {
              var $seekBar = $('.seek-control .seek-bar');
  
              updateSeekPercentage($seekBar, seekBarFillRatio);
+             
+             //assignment-21
+             setCurrentTimeInPlayerBar(filterTimeCode(seekBarFillRatio*currentSongFromAlbum.duration));
          });
      }
 };
@@ -178,11 +195,18 @@ var setupSeekBars = function() {
     });
 };
 
+//assignment-21
+var setTotalTimeInPlayerBar = function(totalTime) {
+    $(".total-time").text(totalTime);
+};
+
 var updatePlayerBarSong = function() {
     $(".currently-playing .song-name").text(currentSongFromAlbum.title);
     $(".currently-playing .artist-name").text(currentAlbum.artist);
     $(".currently-playing .artist-song-mobile").text(currentSongFromAlbum.title + " - " + currentAlbum.artist);
     $(".main-controls .play-pause").html(playerBarPauseButton);
+    //assignment-21
+    setTotalTimeInPlayerBar(filterTimeCode(currentSongFromAlbum.duration));
 };
 
 var trackIndex = function(album, song) {
