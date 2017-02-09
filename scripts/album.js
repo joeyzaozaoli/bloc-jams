@@ -283,9 +283,24 @@ var currentVolume = 80;
 var $previousButton = $('.main-controls .previous');
 var $nextButton = $('.main-controls .next');
 
+//assignment-20
+var togglePlayFromPlayerBar = function(){
+    if (currentSoundFile.isPaused()) {
+        getSongNumberCell(currentlyPlayingSongNumber).html(pauseButtonTemplate);
+        $('.main-controls .play-pause').html(playerBarPauseButton);
+        currentSoundFile.play();
+    } else if (currentSoundFile !== null) {
+        getSongNumberCell(currentlyPlayingSongNumber).html(playButtonTemplate);
+        $('.main-controls .play-pause').html(playerBarPlayButton);
+        currentSoundFile.pause();
+    }
+};
+
 $(document).ready(function() {
     setCurrentAlbum(albumPicasso);
     setupSeekBars();
     $previousButton.click(previousSong);
     $nextButton.click(nextSong);
+    //assignment-20
+    $('.main-controls .play-pause').click(togglePlayFromPlayerBar);
 });
