@@ -301,7 +301,7 @@ var togglePlayFromPlayerBar = function(){
 };
 
 $(document).ready(function() {
-    setCurrentAlbum(albumPicasso);
+    setCurrentAlbum(albumTchaikovsky);
     setupSeekBars();
     $previousButton.click(previousSong);
     $nextButton.click(nextSong);
